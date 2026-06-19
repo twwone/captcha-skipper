@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 260px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 18px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .logo {
+      width: 30px;
+      height: 30px;
+      background: linear-gradient(135deg, #f97316, #dc2626);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      flex-shrink: 0;
+    }
+
+    h1 { font-size: 14px; font-weight: 600; color: #f1f5f9; }
+    h2 { font-size: 11px; color: #64748b; font-weight: 400; margin-top: 2px; }
+
+    .card {
+      background: #1e293b;
+      border-radius: 10px;
+      padding: 13px 14px;
+      margin-bottom: 10px;
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .toggle-label { font-size: 13px; color: #cbd5e1; }
+
+    .toggle {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    .toggle input { display: none; }
+
+    .slider {
+      position: absolute;
+      inset: 0;
+      background: #334155;
+      border-radius: 24px;
+      cursor: pointer;
+      transition: background 0.22s;
+    }
+    .slider::before {
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      left: 3px;
+      top: 3px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.22s;
+      box-shadow: 0 1px 3px rgba(0,0,0,.4);
+    }
+    input:checked + .slider { background: #f97316; }
+    input:checked + .slider::before { transform: translateX(20px); }
+
+    .status-row {
+      margin-top: 10px;
+      font-size: 11px;
+      color: #475569;
+      line-height: 1.7;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #1e3a2f;
+      color: #4ade80;
+      border-radius: 4px;
+      padding: 1px 5px;
+      font-size: 10px;
+      margin-right: 4px;
+    }
+    .badge.off { background: #2d1f1f; color: #f87171; }
+
+    .note {
+      font-size: 10px;
+      color: #475569;
+      line-height: 1.6;
+      background: #1e293b;
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .note strong { color: #94a3b8; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">🚫</div>
+    <div>
+      <h1>CAPTCHA 封鎖器</h1>
+      <h2>封鎖腳本載入，不讓驗證出現</h2>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="toggle-row">
+      <span class="toggle-label">啟用封鎖</span>
+      <label class="toggle">
+        <input type="checkbox" id="toggle">
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="status-row" id="status">載入中…</div>
+  </div>
+
+  <div class="note">
+    <strong>適用範圍</strong><br>
+    ✓ 前端驗證 / 裝飾性 CAPTCHA<br>
+    ✗ 後端會向 Google 驗證 token 的網站（表單仍會送出失敗）
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
