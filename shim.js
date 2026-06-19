@@ -7,16 +7,27 @@
 
   function noop() {}
 
+  // 通知 content script：這個頁面有觸發 CAPTCHA API
+  function notifyBlocked() {
+    window.dispatchEvent(new CustomEvent('captcha-skipper-triggered'));
+  }
+
   function fakeRender(el, params) {
+    notifyBlocked();
     if (params && typeof params.callback === 'function') {
       setTimeout(function () { params.callback(FAKE_TOKEN); }, 30);
     }
     return 0;
   }
 
+  function fakeExecute() {
+    notifyBlocked();
+    return Promise.resolve(FAKE_TOKEN);
+  }
+
   var recaptchaAPI = {
     ready:       function (cb) { cb && setTimeout(cb, 0); },
-    execute:     function () { return Promise.resolve(FAKE_TOKEN); },
+    execute:     fakeExecute,
     render:      fakeRender,
     reset:       noop,
     getResponse: function () { return FAKE_TOKEN; }
@@ -30,11 +41,10 @@
   // hCaptcha
   window.hcaptcha = {
     ready:       function (cb) { cb && setTimeout(cb, 0); },
-    execute:     function () { return Promise.resolve({ response: FAKE_TOKEN }); },
+    execute:     function () { notifyBlocked(); return Promise.resolve({ response: FAKE_TOKEN }); },
     render:      fakeRender,
     reset:       noop,
     getResponse: function () { return FAKE_TOKEN; }
   };
-
 
 })();

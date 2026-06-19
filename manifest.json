@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "CAPTCHA 封鎖器",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "網路層封鎖 reCAPTCHA / hCaptcha 腳本載入，並注入假 API 避免網頁出錯",
   "permissions": [
     "storage",
@@ -24,6 +24,12 @@
       "run_at": "document_start",
       "world": "MAIN",
       "all_frames": true
+    },
+    {
+      "matches": ["*://*/*"],
+      "js": ["content-banner.js"],
+      "run_at": "document_idle",
+      "all_frames": false
     }
   ],
   "action": {
